@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>店迹</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <span class="brand-mark"><img src="icons/icon32.png" alt=""></span>
+        <span><strong>店迹</strong><small>STORE COLLECTOR · v2.0.0</small></span>
+      </div>
+      <i id="service-dot" aria-hidden="true"></i>
+    </header>
+
+    <main>
+      <section class="status-card">
+        <span id="service-label" class="status-label">正在检查本地服务</span>
+        <p id="task-status">等待开始</p>
+        <div class="progress-line"><i></i></div>
+      </section>
+
+      <section class="metrics" aria-label="采集统计">
+        <div><span>店铺</span><strong id="shop-count">0</strong></div>
+        <div><span>详情</span><strong id="detail-count">0</strong></div>
+        <div><span>优惠</span><strong id="deal-count">0</strong></div>
+      </section>
+      <p id="message" class="message" role="status">正在读取状态</p>
+    </main>
+
+    <footer>
+      <button id="open-console" class="open-console" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"></path><path d="M9 5v14"></path></svg>
+        <span>打开采集控制台</span>
+      </button>
+      <button id="pause" class="icon-button" type="button" title="暂停任务" aria-label="暂停任务">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg>
+      </button>
+      <button id="resume" class="icon-button" type="button" title="继续任务" aria-label="继续任务">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="7 4 19 12 7 20 7 4"></polygon></svg>
+      </button>
+    </footer>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

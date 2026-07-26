@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>店迹采集控制台</title>
+    <link rel="stylesheet" href="sidepanel.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <img src="icons/icon32.png" alt="">
+        </span>
+        <span class="brand-copy">
+          <strong>店迹</strong>
+          <small>STORE COLLECTOR</small>
+        </span>
+      </div>
+      <div class="connection" title="本地服务、配对与 MongoDB 状态">
+        <i id="service-dot" aria-hidden="true"></i>
+        <span id="service-label">正在检查</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="overview-card" aria-labelledby="overview-title">
+        <div>
+          <span class="eyebrow">COLLECTION WORKSPACE</span>
+          <h1 id="overview-title">把当前浏览器变成<br>可恢复的采集工作台</h1>
+          <p>顺序访问、固定队列、失败即停。数据只写入你的本机服务。</p>
+        </div>
+        <span class="version-pill">v2.0.0</span>
+      </section>
+
+      <details id="pairing-card" class="pairing-card">
+        <summary>
+          <span>
+            <i class="summary-icon" aria-hidden="true"></i>
+            <strong>本地服务配对</strong>
+          </span>
+          <small id="pairing-summary">尚未验证</small>
+        </summary>
+        <div class="pairing-body">
+          <p>启动本地服务后，把终端显示的配对令牌粘贴到这里。令牌只保存在浏览器本机。</p>
+          <div class="pairing-input-row">
+            <label for="api-token">
+              <span>配对令牌</span>
+              <input id="api-token" type="password" autocomplete="off" spellcheck="false" placeholder="粘贴本地令牌">
+            </label>
+            <button id="save-token" class="button button-secondary" type="button">保存并连接</button>
+          </div>
+        </div>
+      </details>
+
+      <section class="panel-card target-card" aria-labelledby="target-title">
+        <div class="card-heading">
+          <div>
+            <span class="step-number">01</span>
+            <h2 id="target-title">设置任务</h2>
+          </div>
+          <select id="task-mode" aria-label="任务范围">
+            <option value="full">完整流程</option>
+            <option value="search">仅搜索</option>
+            <option value="details">仅店铺页</option>
+            <option value="current">当前页</option>
+          </select>
+        </div>
+
+        <div class="form-grid form-grid-primary">
+          <label class="field city-field" for="city-id">
+            <span>城市编号</span>
+            <input id="city-id" type="number" min="1" max="99999" value="4" inputmode="numeric">
+          </label>
+          <label class="field" for="shop-keyword">
+            <span>店铺关键词</span>
+            <input id="shop-keyword" type="text" value="陶陶居" autocomplete="off">
+          </label>
+        </div>
+
+        <div class="form-grid form-grid-range">
+          <label class="field" for="start-page"><span>开始页</span><input id="start-page" type="number" min="1" max="30" value="1"></label>
+          <label class="field" for="end-page"><span>截至页</span><input id="end-page" type="number" min="1" max="30" value="1"></label>
+          <label class="field" for="start-index"><span>页内起点</span><input id="start-index" type="number" min="1" max="15" value="1"></label>
+          <label class="field" for="max-shops"><span>采集数量</span><input id="max-shops" type="number" min="1" max="100" value="15"></label>
+        </div>
+
+        <div class="task-options">
+          <label class="switch" for="include-deals">
+            <span>
+              <strong>采集优惠</strong>
+              <small>团购套餐与代金券</small>
+            </span>
+            <input id="include-deals" type="checkbox" checked>
+            <i aria-hidden="true"></i>
+          </label>
+
+          <div class="pace-control">
+            <span>
+              <strong>访问节奏</strong>
+              <small>所有等待均随机</small>
+            </span>
+            <div class="segmented" role="group" aria-label="访问节奏">
+              <button class="is-active" type="button" data-rate-preset="fast" aria-pressed="true">快速</button>
+              <button type="button" data-rate-preset="safe" aria-pressed="false">稳妥</button>
+            </div>
+          </div>
+        </div>
+        <output id="pace-preview" class="pace-preview">间隔 10–20 秒 · 每批 3–7 次 · 休息 30–90 秒</output>
+      </section>
+
+      <section class="panel-card progress-card" aria-labelledby="progress-title">
+        <div class="card-heading">
+          <div>
+            <span class="step-number">02</span>
+            <h2 id="progress-title">任务进度</h2>
+          </div>
+          <span id="progress-label" class="mono-label">0 / 0</span>
+        </div>
+
+        <p id="task-status" class="task-status">等待开始</p>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <i id="progress-fill"></i>
+        </div>
+
+        <div class="metrics" aria-label="数据统计">
+          <div><span>检索</span><strong id="search-count">0</strong><small>SEARCH</small></div>
+          <div><span>店铺</span><strong id="shop-count">0</strong><small>SHOPS</small></div>
+          <div><span>详情</span><strong id="detail-count">0</strong><small>DETAILS</small></div>
+          <div><span>优惠</span><strong id="deal-count">0</strong><small>OFFERS</small></div>
+        </div>
+
+        <div class="queue-heading">
+          <h3>固定队列</h3>
+          <span id="queue-summary">暂无任务</span>
+        </div>
+        <ol id="shop-queue" class="shop-queue" aria-live="polite"></ol>
+      </section>
+
+      <section class="panel-card result-card" aria-labelledby="result-title">
+        <div class="card-heading">
+          <div>
+            <span class="step-number">03</span>
+            <h2 id="result-title">最新完成</h2>
+          </div>
+          <span id="completed-offer-count" class="status-chip">0 项优惠</span>
+        </div>
+        <p id="completed-empty" class="empty-state">完成首家店铺后，结构化结果会显示在这里。</p>
+        <div id="completed-content" hidden>
+          <h3 id="completed-name" class="completed-name"></h3>
+          <dl id="completed-fields" class="completed-fields"></dl>
+          <div id="completed-offers" class="completed-offers"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="action-dock">
+      <p id="message" class="message" role="status">控制台已就绪</p>
+      <div class="dock-buttons">
+        <button id="new-search" class="button button-primary command-wide" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="7 4 19 12 7 20 7 4"></polygon></svg>
+          <span>开始任务</span>
+        </button>
+        <button id="continue-task" class="button button-secondary command-wide" type="button" title="继续上次任务">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"></path><path d="M20 4v7h-7"></path></svg>
+          <span>继续上次</span>
+        </button>
+        <button id="pause" class="button icon-button" type="button" title="暂停任务" aria-label="暂停任务">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg>
+        </button>
+        <button id="export-csv" class="button icon-button" type="button" title="安全导出 CSV" aria-label="安全导出 CSV">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>
+        </button>
+      </div>
+    </footer>
+
+    <script src="sidepanel.js"></script>
+  </body>
+</html>
