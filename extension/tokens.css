@@ -1,4 +1,11 @@
 @font-face {
+  font-family: "Anthropic Serif";
+  src: local("Anthropic Serif"), local("Anthropic Serif Web"), local("Anthropic Serif Web Text Light"), local("AnthropicSerifWebWeb-TextLight");
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+}
+@font-face {
   font-family: "Collector Serif";
   src: url("fonts/source-serif-latin.woff2") format("woff2");
   font-style: normal;
@@ -89,4 +96,35 @@ svg {
     transition: none !important;
     animation: none !important;
   }
+}
+
+.resource-nav {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 18px 0;
+}
+.tutorial-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 4px 11px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 7px;
+  color: var(--ink-soft);
+  background: var(--surface);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.tutorial-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--surface-subtle);
+}
+.tutorial-link svg {
+  width: 14px;
+  height: 14px;
 }

@@ -1,6 +1,8 @@
 /* Shared UI translations. Record field names stay unchanged in storage and exports. */
 (() => {
   const english = {
+    使用教程: "User guide",
+    帮助: "Help",
     本地服务尚未配对或令牌无效:
       "The local service is not paired or the token is invalid",
     页面要求人工验证或已触发访问限制:
@@ -356,12 +358,18 @@
     document.documentElement.lang = locale;
     for (const [node, original] of sourceNodes) {
       const trimmed = original.trim();
-      node.textContent = original.replace(trimmed, t(trimmed));
+      node.textContent = original.replace(trimmed, t(trimmed.replace(/\s+/g, " ")));
     }
     for (const [element, attr, original] of attributes)
       element.setAttribute(attr, t(original));
     for (const select of document.querySelectorAll("[data-language]"))
       select.value = locale;
+    for (const link of document.querySelectorAll("[data-docs-link]")) {
+      link.href =
+        locale === "en"
+          ? "https://github.com/cloudcollection/dianping-store-collector/blob/main/README.en.md#get-started"
+          : "https://github.com/cloudcollection/dianping-store-collector#快速上手";
+    }
     document.dispatchEvent(new CustomEvent("collector:language"));
   }
   for (const select of document.querySelectorAll("[data-language]")) {

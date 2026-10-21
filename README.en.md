@@ -3,7 +3,7 @@
   <h1>Dianping Store Collector · 店迹</h1>
   <p>Turn store pages you can browse into useful records, kept on your own machine.</p>
   <p><a href="README.md">简体中文</a> · <strong>English</strong></p>
-  <p>v2.1.0 · Chrome / Edge · Windows · <a href="LICENSE">GPL-3.0</a></p>
+  <p>v2.1.1 · Chrome / Edge · Windows · <a href="LICENSE">GPL-3.0</a></p>
 </div>
 
 Store Collector is a Chrome and Edge extension for organizing Dianping search results, store details, group buys and vouchers. Records stay on your machine, with pause and resume support and CSV export.

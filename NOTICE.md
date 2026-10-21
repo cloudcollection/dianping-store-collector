@@ -13,3 +13,5 @@ This is an independent project, with no affiliation with or endorsement from Dia
 
 This is a non-commercial learning project intended for education and technical exchange.
 本项目为非商业学习项目，仅用于学习与技术交流。
+
+Anthropic Serif is used only when installed locally. Its font file is not distributed with this project.

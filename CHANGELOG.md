@@ -1,5 +1,12 @@
 # Changelog / 更新记录
 
+## 2.1.1
+
+- Prefer locally installed Anthropic Serif for English interface text, with a bundled open-source serif fallback.
+- Add a language-aware user guide button to the popup and workspace.
+
+中文：统一英文衬线字体，新增直达中英文仓库教程的按钮。
+
 ## 2.1.0 — 2026-10-21
 
 - Chinese and English README with first-run tutorial, output schema, configuration and troubleshooting.

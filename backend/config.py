@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 
-APP_VERSION = "2.1.0"
+APP_VERSION = "2.1.1"
 SCHEMA_VERSION = 2
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]

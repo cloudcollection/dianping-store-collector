@@ -3,7 +3,7 @@
   <h1>店迹 · Dianping Store Collector</h1>
   <p>把你能正常浏览的店铺与优惠，整理成留在本机的数据。</p>
   <p><strong>简体中文</strong> · <a href="README.en.md">English</a></p>
-  <p>v2.1.0 · Chrome / Edge · Windows · <a href="LICENSE">GPL-3.0</a></p>
+  <p>v2.1.1 · Chrome / Edge · Windows · <a href="LICENSE">GPL-3.0</a></p>
 </div>
 
 店迹是一款适用于 Chrome 和 Edge 的大众点评店铺采集扩展，支持搜索结果、店铺详情、团购和代金券整理。数据保存在本地，支持暂停续采与 CSV 导出。

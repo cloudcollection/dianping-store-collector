@@ -1,5 +1,5 @@
 const API_BASE = "http://127.0.0.1:8765";
-const APP_VERSION = "2.1.0";
+const APP_VERSION = "2.1.1";
 const DEBUG_PROTOCOL_VERSION = "1.3";
 const STATE_KEY = "dianpingCrawlerState";
 const STATUS_KEY = "dianpingRuntimeStatus";

@@ -3,6 +3,7 @@
 | Asset / 素材 | Source / 来源 | License or attribution / 许可与归属 |
 | --- | --- | --- |
 | Dianping logo / 大众点评标志 | [Official website / 官网](https://m.dianping.com/) · [Image / 图片](https://img.meituan.net/dpmobile/9d9025ccccb2d1d2377d6e604580707d13124.png.webp) | Trademark belongs to its owner / 商标归权利人所有 |
+| Anthropic Serif (local) | [Claude](https://claude.com/) | Not bundled; uses a locally installed font / 不随仓库分发，仅匹配本机字体 |
 | Source Serif 4 | [Adobe / Google Fonts](https://github.com/google/fonts/tree/main/ofl/sourceserif4) | [SIL OFL 1.1](../extension/fonts/OFL-SourceSerif4.txt) |
 | Noto Serif SC | [Google Fonts](https://github.com/google/fonts/tree/main/ofl/notoserifsc) | [SIL OFL 1.1](../extension/fonts/OFL-NotoSerifSC.txt) |
 
