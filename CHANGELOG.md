@@ -4,7 +4,7 @@
 
 - Chinese and English README with first-run tutorial, output schema, configuration and troubleshooting.
 - Chinese/English interface switching, browser-local language preference and localized extension metadata.
-- Claude-inspired paper/terracotta interface, real Dianping wordmark and bundled OFL serif fonts.
+- Updated popup and collection workspace.
 - Real popup progress, current-page capture without unrelated validation, preserved task settings across upgrades.
 - Empty CSVs retain headers; Python setup detects 3.10+ and reports installation failures.
 - Added translation/progress regression checks and browser QA recipes.

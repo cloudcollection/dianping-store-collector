@@ -10,3 +10,6 @@ Bundled font software retains the copyrights and licenses in [extension/fonts](e
 
 This is an independent project, with no affiliation with or endorsement from Dianping, Meituan or Anthropic.
 本项目独立维护，与大众点评、美团或 Anthropic 无隶属或背书关系。
+
+This is a non-commercial learning project intended for education and technical exchange.
+本项目为非商业学习项目，仅用于学习与技术交流。

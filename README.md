@@ -6,24 +6,18 @@
   <p>v2.1.0 · Chrome / Edge · Windows · <a href="LICENSE">GPL-3.0</a></p>
 </div>
 
-找店、抄地址、记评分，再把团购和代金券挨个复制到表格里——这些重复工作可以少做一些。店迹在你自己的浏览器中按顺序访问店铺，保存资料和优惠；中途暂停后，可以接着上次的队列继续。
-
-**先从 3 家店试起。** 看过实际保存的字段，再决定是否扩大范围。它适合有人看着的小批量整理；页面改版或要求验证时，仍需要你处理。
+店迹是一款适用于 Chrome 和 Edge 的大众点评店铺采集扩展，支持搜索结果、店铺详情、团购和代金券整理。数据保存在本地，支持暂停续采与 CSV 导出。
 
 [快速上手](#快速上手) · [第一次采集](#第一次采集) · [结果在哪里](#结果在哪里) · [常见问题](#常见问题)
 
-## 看看界面
-
-暖白背景、陶土色按钮，中英文衬线排版。右上角可以切换中文与 English，设置保存在本机。
+## 界面
 
 <p align="center">
   <img src="docs/assets/sidepanel-preview.png" width="370" alt="中文控制台预览，包含任务设置、进度与导出按钮">
   <img src="docs/assets/popup-preview.png" width="320" alt="工具栏弹窗预览">
 </p>
 
-以上为离线界面预览，未接入真实采集任务。[英文界面](docs/assets/sidepanel-preview-en.png)也可预览。
-
-## 能帮你做什么
+## 功能
 
 | 你想做的事 | 店迹提供的帮助 |
 | --- | --- |
@@ -33,7 +27,7 @@
 | 分几次完成同一批整理 | 暂停、继续，重新打开浏览器后恢复未完成队列 |
 | 准备后续分析或人工核对 | 导出 CSV；结构化记录与恢复信息保存在本机 |
 
-例如，可以用于消费清单、商圈资料整理，或经过授权的探索性研究。研究使用时，需要另行核验样本覆盖、采集日期和缺失值；搜索结果并不等于某个区域的全部商户。
+适合学习浏览器扩展开发、网页数据结构化处理与本地数据管理。
 
 页面上没有展示的信息会留空。店名、地址和总分属于必要字段；缺少这些字段时，当前店铺不会提交为完成。其他字段允许缺失，并会提示。优惠栏目存在但解析失败时，任务也会暂停。
 
@@ -50,7 +44,7 @@
 
 ### 2. 下载并启动本地服务
 
-从本仓库 **Code → Download ZIP** 下载并解压，建议放到 D 盘，例如 `D:\Projects\dianping-store-collector`。也可以：
+从本仓库 **Code → Download ZIP** 下载并解压，或使用 Git：
 
 ```powershell
 git clone https://github.com/cloudcollection/dianping-store-collector.git
@@ -108,9 +102,9 @@ cd dianping-store-collector
 
 ## 结果在哪里
 
-### 给你查看的 CSV
+### CSV 导出
 
-文件名类似 `dianping-stores-20261021-143000.csv`，UTF-8 编码，带 BOM，可用 Excel 打开。
+导出文件为 `dianping-stores-*.csv`，使用 UTF-8 编码，可用 Excel 打开。
 
 - **一行一家店**，导出的是当前配置数据库中的店铺快照，包含历史任务，不仅是当前队列。
 - 固定 12 列：店铺id、店铺名、评论总数、人均价格、标签、店铺地址、店铺均分、推荐菜、店铺总分、优惠券信息、最后采集时间、首次采集时间。
@@ -119,7 +113,7 @@ cd dianping-store-collector
 - 中英文界面使用同一套中文数据字段，便于兼容已有数据。
 - 导出凭证一次有效，60 秒后过期；可能被表格软件当成公式的单元格会作为文本处理。
 
-参见[虚构的单店记录示例](examples/store.example.json)。若要逐条分析优惠，可读取 MongoDB 的 `deals` 集合，或展开 CSV 中的优惠 JSON。
+参见[店铺数据示例](examples/store.example.json)。若要逐条分析优惠，可读取 MongoDB 的 `deals` 集合，或展开 CSV 中的优惠 JSON。
 
 ### 本地保存的记录
 
@@ -135,16 +129,7 @@ cd dianping-store-collector
 
 项目的 `data/` 目录还会保存本地记录、配对令牌和响应证据。响应证据默认最多 250 MB，保留 14 天。浏览器本机存储保存任务状态、界面语言、设置和配对信息。**导出 CSV 不等于备份任务**；换电脑时不能只复制 CSV 就期待继续原队列。
 
-相关配置可在启动服务前设置：
-
-```powershell
-$env:DIANPING_MONGO_URI = "mongodb://127.0.0.1:27017"
-$env:DIANPING_MONGO_DATABASE = "dianping_collector"
-$env:DIANPING_DATA_DIR = "D:\DianpingData"
-.\start.ps1
-```
-
-更多配置见[配置说明](docs/CONFIGURATION.md)。
+连接地址、数据目录等设置见[配置说明](docs/CONFIGURATION.md)。
 
 ## 常见问题
 
@@ -167,27 +152,21 @@ $env:DIANPING_DATA_DIR = "D:\DianpingData"
 
 不要上传 `data/`、数据库备份、配对令牌或带账号内容的日志。项目不包含验证码绕过、Cookie 导出、代理轮换或并发请求轰炸功能。请仅整理你获准访问和使用的数据。
 
-## 开发与已知限制
+## 开发
 
 ```powershell
 .\test.ps1
 ```
 
-Python 测试覆盖接口、配对、解析、存储和导出；JavaScript 测试覆盖队列恢复、随机节奏、页面脚本重复注入、语言与进度。测试使用本地样本和模拟接口；**本版尚未完成广泛的真实网站兼容性验证**，不要把通过离线测试理解为所有城市和页面均可采集。
-
-- 网站会变化，解析器和页面选择器可能需要更新。
-- 安装与启动脚本以 Windows PowerShell 为目标。
-- 缺少数据不代表零；页面评分也不是独立核实后的事实。
-- 英文字体优先匹配本机 Claude 同名字体，并附带 Source Serif 4；中文界面附带 Noto Serif SC 子集。它们用于呈现 Claude 风格，**不是重新分发 Claude 商业字体**。[素材来源](docs/ASSETS.md)
-- [本次设计、文档参考与自审记录](docs/DESIGN_REVIEW.md)记录了采用的建议与修订。
+运行接口、解析、存储与扩展功能的回归测试。页面结构变化可能影响解析，使用前建议先验证少量店铺。
 
 ```text
 backend/      本地服务、解析与存储
-extension/    Manifest V3 扩展与本地字体
+extension/    Manifest V3 浏览器扩展
 tests/        回归测试
-docs/         配置、设计参考与截图
-examples/     明确标为虚构的结果示例
-tools/        字体子集的复现工具
+docs/         使用文档与截图
+examples/     数据示例
+tools/        开发工具
 ```
 
 提交问题时，请给出复现步骤、浏览器和版本、任务模式，以及脱敏后的错误信息。欢迎小范围、可验证的改进。
@@ -196,4 +175,6 @@ tools/        字体子集的复现工具
 
 本项目基于 [Sniper970119/dianping_spider](https://github.com/Sniper970119/dianping_spider) 的 GPL-3.0 代码改写，新增了浏览器扩展工作流、本地服务、任务恢复、界面及测试。
 
-代码使用 [GNU GPL v3.0](LICENSE)。随附字体使用各自的 SIL Open Font License。大众点评标志用于说明适配的平台，相关商标归权利人所有；本项目与大众点评、美团及 Anthropic 均无隶属或背书关系。
+代码使用 [GNU GPL v3.0](LICENSE)。第三方素材保留其原有许可。
+
+本项目为非商业学习项目，仅用于学习与技术交流。大众点评标志用于说明适配的平台，相关商标归权利人所有；本项目与大众点评、美团及 Anthropic 均无隶属或背书关系。

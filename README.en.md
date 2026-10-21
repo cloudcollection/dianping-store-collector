@@ -6,24 +6,18 @@
   <p>v2.1.0 · Chrome / Edge · Windows · <a href="LICENSE">GPL-3.0</a></p>
 </div>
 
-Copying store names, ratings, addresses and offers into a spreadsheet gets repetitive. Store Collector visits stores in your browser, saves the details it can read, and keeps a fixed queue so you can pause and pick up where you left off.
-
-**Try 3 stores first.** Check what was actually saved before expanding the range. This is a tool for small, supervised collections; site changes and verification prompts still need your attention.
+Store Collector is a Chrome and Edge extension for organizing Dianping search results, store details, group buys and vouchers. Records stay on your machine, with pause and resume support and CSV export.
 
 [Get started](#get-started) · [Your first collection](#your-first-collection) · [Your results](#your-results) · [Troubleshooting](#troubleshooting)
 
-## A look inside
-
-A warm paper background, terracotta controls and serif typography in both languages. Switch between Chinese and English in the upper-right corner; your choice stays on this machine.
+## Interface
 
 <p align="center">
   <img src="docs/assets/sidepanel-preview-en.png" width="370" alt="English workspace preview with collection settings and progress">
   <img src="docs/assets/popup-preview-en.png" width="320" alt="English toolbar popup preview">
 </p>
 
-These are offline interface previews, without a live collection connected. [Chinese workspace preview](docs/assets/sidepanel-preview.png).
-
-## What you can use it for
+## Features
 
 | Your task | What the collector helps with |
 | --- | --- |
@@ -33,7 +27,7 @@ These are offline interface previews, without a live collection connected. [Chin
 | Work in several sessions | Pause, continue and recover an unfinished queue after a browser restart |
 | Prepare data for review or analysis | Export CSV and retain structured records locally |
 
-Possible uses include personal shortlists, neighborhood research and authorized exploratory studies. For research, independently check sampling coverage, collection dates and missing data. Search results are not a census of every business in an area.
+Use it to learn browser extension development, web data structuring and local data management.
 
 Information the page does not show stays empty. Store name, address and overall rating are required to commit a store. Other fields may be missing and are reported. If an offers section is detected but cannot be parsed, the collection pauses.
 
@@ -50,7 +44,7 @@ The setup script installs Python dependencies. **It does not install or start Mo
 
 ### 2. Download and start the local service
 
-Choose **Code → Download ZIP** on this repository and extract it, preferably on D:, for example `D:\Projects\dianping-store-collector`. Or clone it:
+Choose **Code → Download ZIP** and extract the repository, or clone it:
 
 ```powershell
 git clone https://github.com/cloudcollection/dianping-store-collector.git
@@ -108,9 +102,9 @@ These are randomized wait ranges, not a guarantee against access restrictions. R
 
 ## Your results
 
-### CSV for review
+### CSV export
 
-The filename looks like `dianping-stores-20261021-143000.csv`. It uses UTF-8 with a BOM for spreadsheet compatibility.
+Exports are named `dianping-stores-*.csv` and use UTF-8 for spreadsheet compatibility.
 
 - **One row per store.** It exports store snapshots across the configured database, including earlier tasks, rather than only the active queue.
 - There are 12 fixed columns, listed below.
@@ -134,7 +128,7 @@ The filename looks like `dianping-stores-20261021-143000.csv`. It uses UTF-8 wit
 | 最后采集时间 | Last collected |
 | 首次采集时间 | First collected |
 
-See the [fictional store example](examples/store.example.json). To analyze individual offers, use MongoDB's `deals` collection or expand the offer JSON in the CSV.
+See the [store data example](examples/store.example.json). To analyze individual offers, use MongoDB's `deals` collection or expand the offer JSON in the CSV.
 
 ### Records on your machine
 
@@ -150,16 +144,7 @@ The default MongoDB database is `dianping_collector`:
 
 The project's `data/` directory also holds local records, the pairing token and response evidence. Evidence defaults to a 250 MB limit and a 14-day retention period. Browser-local storage holds task state, language, settings and pairing information. **A CSV export is not a task backup:** copying it to another computer does not recover the original queue.
 
-Set configuration before starting the service:
-
-```powershell
-$env:DIANPING_MONGO_URI = "mongodb://127.0.0.1:27017"
-$env:DIANPING_MONGO_DATABASE = "dianping_collector"
-$env:DIANPING_DATA_DIR = "D:\DianpingData"
-.\start.ps1
-```
-
-See [configuration](docs/CONFIGURATION.md) for additional settings.
+See [configuration](docs/CONFIGURATION.md) to change the connection address, data directory and other settings.
 
 ## Troubleshooting
 
@@ -182,27 +167,21 @@ Records go to your configured MongoDB and local directory; the project has no ho
 
 Do not publish `data/`, database backups, pairing tokens or logs with account details. There is no CAPTCHA bypass, cookie export, proxy rotation or concurrent request flooding. Collect only data you are allowed to access and use.
 
-## Development and limitations
+## Development
 
 ```powershell
 .\test.ps1
 ```
 
-Python tests cover the API, pairing, parsing, storage and export. JavaScript tests cover queue recovery, randomized pacing, content-script reinjection, language and progress. Tests use local fixtures and simulated interfaces. **This release has not completed broad live-site compatibility testing.** Passing offline tests does not establish compatibility with every city or page.
-
-- Dianping changes may require parser and selector updates.
-- Setup and launch scripts target Windows PowerShell.
-- Missing data is not zero; displayed ratings are not independently verified facts.
-- Typography prefers locally installed Claude font names and bundles Source Serif 4 plus a Noto Serif SC interface subset. These reproduce the requested style without redistributing commercial Claude fonts. See [asset provenance](docs/ASSETS.md).
-- [Design references and review notes](docs/DESIGN_REVIEW.md) explain the adopted recommendations and revisions.
+Run the regression tests for the API, parsing, storage and extension. Site changes may affect parsing; check a small sample before collecting a larger batch.
 
 ```text
 backend/      Local service, parsing and storage
-extension/    Manifest V3 extension and local fonts
+extension/    Manifest V3 browser extension
 tests/        Regression tests
-docs/         Configuration, design references and screenshots
-examples/     Clearly fictional output example
-tools/        Reproducible font-subset builder
+docs/         Documentation and screenshots
+examples/     Data examples
+tools/        Development tools
 ```
 
 When reporting a bug, include reproduction steps, browser/version, task mode and a redacted error message. Small, verifiable contributions are welcome.
@@ -211,4 +190,6 @@ When reporting a bug, include reproduction steps, browser/version, task mode and
 
 This project modifies GPL-3.0 code from [Sniper970119/dianping_spider](https://github.com/Sniper970119/dianping_spider), adding a browser-extension workflow, local service, task recovery, interface and tests.
 
-Code is licensed under [GNU GPL v3.0](LICENSE). Bundled fonts retain their SIL Open Font Licenses. The Dianping mark identifies the supported platform and belongs to its owner. This project is not affiliated with or endorsed by Dianping, Meituan or Anthropic.
+Code is licensed under [GNU GPL v3.0](LICENSE). Third-party assets retain their respective licenses.
+
+This is a non-commercial learning project intended for education and technical exchange. The Dianping mark identifies the supported platform and belongs to its owner. This project is not affiliated with or endorsed by Dianping, Meituan or Anthropic.
