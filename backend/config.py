@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 
-APP_VERSION = "2.0.0"
+APP_VERSION = "2.1.0"
 SCHEMA_VERSION = 2
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
@@ -25,3 +25,4 @@ RAW_MAX_TOTAL_BYTES = int(
 RAW_RETENTION_DAYS = int(os.getenv("DIANPING_RAW_RETENTION_DAYS", "14"))
 
 EXTENSION_ORIGIN_PATTERN = r"^chrome-extension://[a-p]{32}$"
+

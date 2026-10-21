@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
 if (-not (Test-Path ".\.venv\Scripts\python.exe")) {
@@ -13,3 +13,4 @@ Write-Host "浏览器扩展配对令牌（仅粘贴到本机扩展，请勿分�
 Write-Host ""
 
 & .\.venv\Scripts\python.exe -m uvicorn backend.app:app --host 127.0.0.1 --port 8765
+

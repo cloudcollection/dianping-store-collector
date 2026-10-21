@@ -985,10 +985,9 @@ class CollectorStore:
             rows.append(row)
 
         buffer = io.StringIO(newline="")
-        if rows:
-            writer = csv.DictWriter(buffer, fieldnames=SHOP_FIELDS, extrasaction="ignore")
-            writer.writeheader()
-            writer.writerows(rows)
+        writer = csv.DictWriter(buffer, fieldnames=SHOP_FIELDS, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
         return ("\ufeff" + buffer.getvalue()).encode("utf-8")
 
 
@@ -1002,3 +1001,4 @@ def _csv_safe(value: Any) -> Any:
 
 # Compatibility alias for the original demo test suite and downstream imports.
 DemoStore = CollectorStore
+

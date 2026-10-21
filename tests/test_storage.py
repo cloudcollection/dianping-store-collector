@@ -440,3 +440,14 @@ def test_store_attempts_reconnect_after_startup_failure(tmp_path, monkeypatch):
 
     assert store.mongo_connected is True
     assert len(attempts) == 1
+
+
+
+def test_empty_export_keeps_schema(tmp_path):
+    import csv
+    import io
+    from backend.storage import DemoStore, SHOP_FIELDS
+
+    store = DemoStore(data_dir=tmp_path, connect_mongo=False)
+    rows = list(csv.reader(io.StringIO(store.export_csv().decode("utf-8-sig"))))
+    assert rows == [list(SHOP_FIELDS)]

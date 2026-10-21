@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "店迹 - 大众点评店铺采集器",
-  "version": "2.0.0",
-  "description": "在用户可正常访问的页面中，顺序采集店铺、团购套餐与代金券，并支持固定队列和断点续采。",
+  "name": "__MSG_extensionName__",
+  "version": "2.1.0",
+  "description": "__MSG_extensionDescription__",
   "minimum_chrome_version": "120",
   "icons": {
     "16": "icons/icon16.png",
@@ -32,7 +32,7 @@
       "16": "icons/icon16.png",
       "32": "icons/icon32.png"
     },
-    "default_title": "店迹采集控制台",
+    "default_title": "__MSG_actionTitle__",
     "default_popup": "popup.html"
   },
   "side_panel": {
@@ -44,8 +44,12 @@
         "https://*.dianping.com/*",
         "https://*.meituan.com/*"
       ],
-      "js": ["offer_parser.js", "content.js"],
+      "js": [
+        "offer_parser.js",
+        "content.js"
+      ],
       "run_at": "document_idle"
     }
-  ]
+  ],
+  "default_locale": "zh_CN"
 }

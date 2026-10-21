@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
 if (-not (Test-Path ".\.venv\Scripts\python.exe")) {
@@ -12,12 +12,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 if (Get-Command node -ErrorAction SilentlyContinue) {
-    $scripts = @(
-        ".\tests\test_offer_parser.js",
-        ".\tests\test_rate_limit.js",
-        ".\tests\test_resume_queue.js",
-        ".\tests\test_content_reinjection.js"
-    )
+    $scripts = Get-ChildItem -LiteralPath ".\tests" -Filter "test_*.js" | Sort-Object Name | Select-Object -ExpandProperty FullName
     foreach ($script in $scripts) {
         & node $script
         if ($LASTEXITCODE -ne 0) {
@@ -27,3 +22,4 @@ if (Get-Command node -ErrorAction SilentlyContinue) {
 } else {
     Write-Warning "未找到 Node.js，已跳过浏览器脚本测试。"
 }
+

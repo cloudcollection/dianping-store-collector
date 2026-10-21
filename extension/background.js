@@ -1,5 +1,5 @@
 const API_BASE = "http://127.0.0.1:8765";
-const APP_VERSION = "2.0.0";
+const APP_VERSION = "2.1.0";
 const DEBUG_PROTOCOL_VERSION = "1.3";
 const STATE_KEY = "dianpingCrawlerState";
 const STATUS_KEY = "dianpingRuntimeStatus";
@@ -393,7 +393,7 @@ async function postJson(path, payload) {
       body: JSON.stringify(payload)
     });
   } catch (error) {
-    throw new Error("本地服务未启动，请先运行 demo\\start.ps1");
+    throw new Error("本地服务未启动，请先运行 start.ps1");
   }
   let result = null;
   try {
@@ -417,7 +417,7 @@ async function getJson(path) {
       headers: await apiHeaders()
     });
   } catch (error) {
-    throw new Error("本地服务未启动，请先运行 demo\\start.ps1");
+    throw new Error("本地服务未启动，请先运行 start.ps1");
   }
   if (!response.ok) {
     throw new Error(`本地服务返回 ${response.status}`);
@@ -1383,3 +1383,4 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
   return true;
 });
+

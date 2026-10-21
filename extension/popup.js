@@ -1,3 +1,4 @@
+const t = I18n.t;
 const elements = {
   serviceDot: document.querySelector("#service-dot"),
   serviceLabel: document.querySelector("#service-label"),
@@ -8,7 +9,7 @@ const elements = {
   message: document.querySelector("#message"),
   openConsole: document.querySelector("#open-console"),
   pause: document.querySelector("#pause"),
-  resume: document.querySelector("#resume")
+  resume: document.querySelector("#resume"),
 };
 
 async function send(message) {
@@ -20,36 +21,53 @@ async function send(message) {
 }
 
 function showMessage(text, error = false) {
-  elements.message.textContent = text || "";
+  elements.message.textContent = t(text || "");
   elements.message.classList.toggle("is-error", error);
 }
 
 async function refresh() {
   try {
-    const { state, health, runtime, apiError, pairing } = await send({ type: "getStatus" });
+    const { state, health, runtime, apiError, pairing } = await send({
+      type: "getStatus",
+    });
     const online = Boolean(health?.mongo_connected);
     elements.serviceDot.classList.toggle("online", online);
     elements.serviceDot.classList.toggle("offline", !online);
-    elements.serviceLabel.textContent = health
-      ? online ? "MongoDB 在线" : "MongoDB 未连接"
-      : pairing?.tokenStored ? "配对验证失败" : "需要本地配对";
-    elements.taskStatus.textContent = state.message || "等待开始";
-    elements.shopCount.textContent = health?.shop_count ?? 0;
-    elements.detailCount.textContent = health?.detail_count ?? 0;
-    elements.dealCount.textContent = health?.deal_count ?? 0;
+    elements.serviceLabel.textContent = t(
+      health
+        ? online
+          ? "MongoDB 在线"
+          : "MongoDB 未连接"
+        : pairing?.tokenStored
+          ? "配对验证失败"
+          : "需要本地配对",
+    );
+    elements.taskStatus.textContent = t(state.message || "等待开始");
+    const progress = CollectorProgress.from(state);
+    document.querySelector(".progress-line i").style.width =
+      progress.percent + "%";
+    document
+      .querySelector(".progress-line")
+      .setAttribute("aria-valuenow", String(progress.percent));
+    elements.shopCount.textContent = t(health?.shop_count ?? 0);
+    elements.detailCount.textContent = t(health?.detail_count ?? 0);
+    elements.dealCount.textContent = t(health?.deal_count ?? 0);
     elements.pause.disabled = !state.running;
-    elements.resume.disabled = state.running || state.mode === "idle" || !online;
+    elements.resume.disabled =
+      state.running || state.mode === "idle" || !online;
     if (runtime.lastError) {
       showMessage(runtime.lastError, true);
     } else if (apiError) {
       showMessage(apiError, true);
     } else {
-      showMessage(`响应 ${runtime.capturedResponses || 0} · 优惠 ${runtime.capturedDeals || 0}`);
+      showMessage(
+        `响应 ${runtime.capturedResponses || 0} · 优惠 ${runtime.capturedDeals || 0}`,
+      );
     }
   } catch (error) {
     elements.serviceDot.classList.remove("online");
     elements.serviceDot.classList.add("offline");
-    elements.serviceLabel.textContent = "本地服务离线";
+    elements.serviceLabel.textContent = t("本地服务离线");
     elements.pause.disabled = true;
     elements.resume.disabled = true;
     showMessage(error.message, true);
@@ -68,6 +86,10 @@ async function run(button, action) {
 }
 
 elements.openConsole.addEventListener("click", async () => {
+  if (!globalThis.chrome?.runtime?.sendMessage) {
+    window.location.assign("sidepanel.html");
+    return;
+  }
   try {
     const currentWindow = await chrome.windows.getCurrent();
     await chrome.sidePanel.open({ windowId: currentWindow.id });
@@ -79,15 +101,13 @@ elements.openConsole.addEventListener("click", async () => {
   }
 });
 
-elements.pause.addEventListener("click", () => run(
-  elements.pause,
-  () => send({ type: "pause" })
-));
+elements.pause.addEventListener("click", () =>
+  run(elements.pause, () => send({ type: "pause" })),
+);
 
-elements.resume.addEventListener("click", () => run(
-  elements.resume,
-  () => send({ type: "resume" })
-));
+elements.resume.addEventListener("click", () =>
+  run(elements.resume, () => send({ type: "resume" })),
+);
 
 if (globalThis.chrome?.runtime?.sendMessage) {
   void refresh();
@@ -95,8 +115,16 @@ if (globalThis.chrome?.runtime?.sendMessage) {
   window.addEventListener("unload", () => window.clearInterval(refreshTimer));
 } else {
   elements.serviceDot.classList.add("offline");
-  elements.serviceLabel.textContent = "本地预览模式";
+  elements.serviceLabel.textContent = t("本地预览模式");
   elements.pause.disabled = true;
   elements.resume.disabled = true;
   showMessage("安装扩展后连接本地服务");
 }
+
+document.addEventListener("collector:language", () => {
+  if (globalThis.chrome?.runtime?.sendMessage) void refresh();
+  else {
+    elements.serviceLabel.textContent = t("本地预览模式");
+    showMessage("安装扩展后连接本地服务");
+  }
+});

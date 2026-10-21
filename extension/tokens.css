@@ -1,49 +1,92 @@
+@font-face {
+  font-family: "Collector Serif";
+  src: url("fonts/source-serif-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Collector Song";
+  src: url("fonts/noto-serif-sc-ui.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+}
 :root {
   color-scheme: light;
-
-  --paper: #f4f6f9;
-  --surface: #ffffff;
-  --surface-subtle: #f8fafc;
-  --surface-dark: #101827;
-  --surface-dark-2: #17243a;
-  --ink: #172033;
-  --ink-soft: #46536a;
-  --muted: #748096;
-  --rule: #e1e6ee;
-  --rule-strong: #cbd3df;
-  --blue: #356df3;
-  --blue-dark: #2858ca;
-  --blue-soft: #edf3ff;
-  --cyan: #20b7a5;
-  --cyan-soft: #e9faf7;
-  --amber: #e9a23b;
-  --amber-soft: #fff5e6;
-  --red: #d94f5c;
-  --red-soft: #fff0f2;
-  --purple: #8c67e8;
-  --purple-soft: #f4f0ff;
-  --success: #199f73;
-
-  --font-display: "Segoe UI Variable Display", "Microsoft YaHei UI", "Segoe UI", sans-serif;
-  --font-body: "Segoe UI Variable Text", "Microsoft YaHei UI", "Segoe UI", sans-serif;
-  --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
-
-  --text-2xs: 10px;
-  --text-xs: 11px;
-  --text-sm: 12px;
-  --text-md: 13px;
-  --text-lg: 15px;
-  --text-xl: 20px;
-  --text-stat: 24px;
-
-  --radius-sm: 7px;
-  --radius-md: 11px;
-  --radius-lg: 16px;
-  --shadow-card: 0 8px 26px rgba(27, 43, 72, 0.08);
-  --shadow-float: 0 14px 34px rgba(17, 31, 54, 0.16);
-  --focus: 0 0 0 3px rgba(53, 109, 243, 0.22);
-
-  --fast: 120ms;
-  --base: 180ms;
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --paper: #faf9f5;
+  --surface: #fffefa;
+  --surface-subtle: #f2efe8;
+  --ink: #292722;
+  --ink-soft: #4b4841;
+  --muted: #706b63;
+  --rule: #e4dfd5;
+  --rule-strong: #cec6b9;
+  --accent: #a95136;
+  --accent-hover: #8e422b;
+  --accent-soft: #f5e7df;
+  --success: #417252;
+  --success-soft: #edf2eb;
+  --red: #b13b35;
+  --red-soft: #fbefec;
+  --amber: #946621;
+  --font-display:
+    "Anthropic Serif", "Copernicus", "Tiempos Text", "Collector Serif",
+    "Collector Song", "Noto Serif SC", "Source Han Serif SC", "Songti SC",
+    "SimSun", serif;
+  --font-body: var(--font-display);
+  --font-mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+  --focus: 0 0 0 3px #a951362b;
+  --radius: 12px;
+}
+* {
+  box-sizing: border-box;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+select,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+[hidden] {
+  display: none !important;
+}
+svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.language-switch {
+  height: 28px;
+  max-width: 84px;
+  padding: 0 6px;
+  color: var(--ink-soft);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: transparent;
+  font-size: 11px;
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
 }

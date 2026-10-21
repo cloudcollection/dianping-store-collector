@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "店迹 · 大众点评店铺采集器"
+  },
+  "extensionDescription": {
+    "message": "整理你能正常浏览的店铺与优惠，保存到本地，支持暂停、续采与 CSV 导出。"
+  },
+  "actionTitle": {
+    "message": "打开店迹"
+  }
+}

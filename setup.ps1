@@ -1,28 +1,27 @@
-﻿param(
-    [string]$PythonPath = ""
-)
-
+﻿param([string]$PythonPath = "")
 $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
 if (-not (Test-Path ".\.venv\Scripts\python.exe")) {
     if ($PythonPath) {
-        & $PythonPath -m venv .venv
+        $selectedPython = $PythonPath
+        $pythonArgs = @()
     } elseif (Get-Command py -ErrorAction SilentlyContinue) {
-        & py -3.11 -m venv .venv
-        if ($LASTEXITCODE -ne 0) {
-            throw "py -3.11 不可用，请使用 -PythonPath 指定 Python 3.10 或更高版本。"
-        }
+        $selectedPython = "py"
+        $pythonArgs = @("-3")
     } elseif (Get-Command python -ErrorAction SilentlyContinue) {
-        & python -m venv .venv
+        $selectedPython = "python"
+        $pythonArgs = @()
     } else {
-        throw "没有找到 Python，请使用 -PythonPath 指定解释器完整路径。"
+        throw "未找到 Python / Python not found. Use -PythonPath with Python 3.10+."
     }
+    & $selectedPython @pythonArgs -B -c "import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)"
+    if ($LASTEXITCODE -ne 0) { throw "需要 Python 3.10+ / Python 3.10+ required. Use -PythonPath." }
+    & $selectedPython @pythonArgs -B -m venv .venv
+    if ($LASTEXITCODE -ne 0) { throw "创建虚拟环境失败 / Could not create virtual environment." }
 }
-
-& .\.venv\Scripts\python.exe -m pip install --upgrade pip
-& .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-
-Write-Host "Demo 环境安装完成。"
-Write-Host "下一步运行：.\start.ps1"
-
+& .\.venv\Scripts\python.exe -B -m pip install --upgrade pip
+if ($LASTEXITCODE -ne 0) { throw "pip 更新失败 / pip upgrade failed." }
+& .\.venv\Scripts\python.exe -B -m pip install -r requirements.txt
+if ($LASTEXITCODE -ne 0) { throw "安装依赖失败 / Dependency installation failed." }
+Write-Host "安装完成 / Setup complete. Start MongoDB, then run .\start.ps1"

@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "Store Collector for Dianping"
+  },
+  "extensionDescription": {
+    "message": "Organize stores and offers from pages you can browse. Local storage, pause and resume, and CSV export."
+  },
+  "actionTitle": {
+    "message": "Open Store Collector"
+  }
+}
